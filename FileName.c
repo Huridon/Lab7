@@ -5,66 +5,101 @@
 #include <math.h>
 #include <locale.h>
 
-int Task1();
-int Task2();
+int Task1(char c);
+float Task2(float x, char c, float y);
+
+int Value(char c);
+char Next(char prev);
+int AddSymbol(int sum, char prev, char cur);
 
 int main()
 {
     setlocale(LC_ALL, "ru_RU.UTF-8");
 
-    Task1();
-    Task2();
+    // Task1
+    char ch;
+    int kind;
+
+    printf("Введите символ: ");
+    scanf(" %c", &ch);
+
+    kind = Task1(ch);
+
+    switch (kind)
+    {
+    case 1:
+        printf("Это цифра\n");
+        break;
+    case 2:
+        printf("Это буква\n");
+        break;
+    default:
+        printf("Неизвестный символ\n");
+    }
+
+    // Task2
+    float x, y, res;
+    char op;
+
+    printf("\nВведите выражение (например, 5+3): ");
+    scanf("%f%c%f", &x, &op, &y);
+
+    switch (op)
+    {
+    case '+':
+    case '-':
+    case '*':
+    case '^':
+        res = Task2(x, op, y);
+        printf("=%f\n", res);
+        break;
+    case '/':
+        if (y == 0)
+        {
+            printf("Ошибка: деление на ноль\n");
+        }
+        else
+        {
+            res = Task2(x, op, y);
+            printf("=%f\n", res);
+        }
+        break;
+    default:
+        printf("Неизвестная операция\n");
+    }
 
     //Домашняя работа:
 
-    char roman[20];
-    int result = 0;
-    int current, next;
+    char c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15;
+    int year;
 
     printf("\nВведите год римскими цифрами: ");
-    scanf("%19s", roman);
+    scanf(" %c", &c1);
 
-    for (int i = 0; roman[i] != '\0'; i++)
-    {
-        switch (roman[i])
-        {
-        case 'I': current = 1; break;
-        case 'V': current = 5; break;
-        case 'X': current = 10; break;
-        case 'L': current = 50; break;
-        case 'C': current = 100; break;
-        case 'D': current = 500; break;
-        case 'M': current = 1000; break;
-        default: current = 0;
-        }
+    year = AddSymbol(0, ' ', c1);
+    c2 = Next(c1);   year = AddSymbol(year, c1, c2);
+    c3 = Next(c2);   year = AddSymbol(year, c2, c3);
+    c4 = Next(c3);   year = AddSymbol(year, c3, c4);
+    c5 = Next(c4);   year = AddSymbol(year, c4, c5);
+    c6 = Next(c5);   year = AddSymbol(year, c5, c6);
+    c7 = Next(c6);   year = AddSymbol(year, c6, c7);
+    c8 = Next(c7);   year = AddSymbol(year, c7, c8);
+    c9 = Next(c8);   year = AddSymbol(year, c8, c9);
+    c10 = Next(c9);  year = AddSymbol(year, c9, c10);
+    c11 = Next(c10); year = AddSymbol(year, c10, c11);
+    c12 = Next(c11); year = AddSymbol(year, c11, c12);
+    c13 = Next(c12); year = AddSymbol(year, c12, c13);
+    c14 = Next(c13); year = AddSymbol(year, c13, c14);
+    c15 = Next(c14); year = AddSymbol(year, c14, c15);
 
-        switch (roman[i + 1])
-        {
-        case 'I': next = 1; break;
-        case 'V': next = 5; break;
-        case 'X': next = 10; break;
-        case 'L': next = 50; break;
-        case 'C': next = 100; break;
-        case 'D': next = 500; break;
-        case 'M': next = 1000; break;
-        default: next = 0;
-        }
-
-        result += current < next ? -current : current;
-    }
-
-    printf("Обычное значение года: %d\n", result);
+    printf("Обычное значение года: %d\n", year);
 
     return 0;
 }
 
-int Task1()
+
+int Task1(char c)
 {
-    char c;
-
-    printf("Введите символ: ");
-    scanf(" %c", &c);
-
     switch (c)
     {
     case '0':
@@ -77,8 +112,7 @@ int Task1()
     case '7':
     case '8':
     case '9':
-        printf("Это цифра\n");
-        break;
+        return 1;
     case 'a':
     case 'b':
     case 'c':
@@ -131,43 +165,68 @@ int Task1()
     case 'X':
     case 'Y':
     case 'Z':
-        printf("Это буква\n");
-        break;
+        return 2;
     default:
-        printf("Неизвестный символ\n");
+        return 0;
     }
-
-    return 0;
 }
 
-int Task2()
+
+float Task2(float x, char c, float y)
 {
-    float x, y;
-    char c;
-
-    printf("\nВведите выражение (например, 5+3): ");
-    scanf("%f%c%f", &x, &c, &y);
-
     switch (c)
     {
     case '+':
-        printf("=%f\n", x + y);
-        break;
+        return x + y;
     case '-':
-        printf("=%f\n", x - y);
-        break;
+        return x - y;
     case '*':
-        printf("=%f\n", x * y);
-        break;
+        return x * y;
     case '/':
-        printf("=%f\n", x / y);
-        break;
+        return x / y;
     case '^':
-        printf("=%f\n", pow(x, y));
-        break;
+        return pow(x, y);
     default:
-        printf("Неизвестная операция\n");
+        return 0;
     }
+}
 
-    return 0;
+
+int Value(char c)
+{
+    switch (c)
+    {
+    case 'I': return 1;
+    case 'V': return 5;
+    case 'X': return 10;
+    case 'L': return 50;
+    case 'C': return 100;
+    case 'D': return 500;
+    case 'M': return 1000;
+    default: return 0;
+    }
+}
+
+
+char Next(char prev)
+{
+    char c;
+
+    if (prev == '\n')
+        return '\n';
+
+    scanf("%c", &c);
+    return c;
+}
+
+
+int AddSymbol(int sum, char prev, char cur)
+{
+    int p = Value(prev);
+    int v = Value(cur);
+
+    if (p < v)
+        return sum + v - 2 * p;
+
+    return sum + v;
 }
