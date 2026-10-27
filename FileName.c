@@ -6,36 +6,31 @@
 #include <locale.h>
 
 int Task1(char c);
-float Task2(float x, char c, float y);
+float Task2(float x, float y, char c);
 
-int Value(char c);
-char Next(char prev);
-int AddSymbol(int sum, char prev, char cur);
+int RomanValue(char c);
+int RomanToYear(char c1, char c2, char c3, char c4, char c5,
+    char c6, char c7, char c8, char c9);
 
 int main()
 {
     setlocale(LC_ALL, "ru_RU.UTF-8");
 
     // Task1
-    char ch;
+    char c;
     int kind;
 
     printf("Введите символ: ");
-    scanf(" %c", &ch);
+    scanf(" %c", &c);
 
-    kind = Task1(ch);
+    kind = Task1(c);
 
-    switch (kind)
-    {
-    case 1:
+    if (kind == 1)
         printf("Это цифра\n");
-        break;
-    case 2:
+    else if (kind == 2)
         printf("Это буква\n");
-        break;
-    default:
+    else
         printf("Неизвестный символ\n");
-    }
 
     // Task2
     float x, y, res;
@@ -50,17 +45,15 @@ int main()
     case '-':
     case '*':
     case '^':
-        res = Task2(x, op, y);
+        res = Task2(x, y, op);
         printf("=%f\n", res);
         break;
     case '/':
         if (y == 0)
-        {
             printf("Ошибка: деление на ноль\n");
-        }
         else
         {
-            res = Task2(x, op, y);
+            res = Task2(x, y, op);
             printf("=%f\n", res);
         }
         break;
@@ -70,33 +63,38 @@ int main()
 
     //Домашняя работа:
 
-    char c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15;
-    int year;
+    int n, year;
+    char r1 = '\0', r2 = '\0', r3 = '\0', r4 = '\0', r5 = '\0';
+    char r6 = '\0', r7 = '\0', r8 = '\0', r9 = '\0';
 
-    printf("\nВведите год римскими цифрами: ");
-    scanf(" %c", &c1);
+    printf("\nВведите количество символов в записи года (от 1 до 9): ");
+    scanf("%d", &n);
 
-    year = AddSymbol(0, ' ', c1);
-    c2 = Next(c1);   year = AddSymbol(year, c1, c2);
-    c3 = Next(c2);   year = AddSymbol(year, c2, c3);
-    c4 = Next(c3);   year = AddSymbol(year, c3, c4);
-    c5 = Next(c4);   year = AddSymbol(year, c4, c5);
-    c6 = Next(c5);   year = AddSymbol(year, c5, c6);
-    c7 = Next(c6);   year = AddSymbol(year, c6, c7);
-    c8 = Next(c7);   year = AddSymbol(year, c7, c8);
-    c9 = Next(c8);   year = AddSymbol(year, c8, c9);
-    c10 = Next(c9);  year = AddSymbol(year, c9, c10);
-    c11 = Next(c10); year = AddSymbol(year, c10, c11);
-    c12 = Next(c11); year = AddSymbol(year, c11, c12);
-    c13 = Next(c12); year = AddSymbol(year, c12, c13);
-    c14 = Next(c13); year = AddSymbol(year, c13, c14);
-    c15 = Next(c14); year = AddSymbol(year, c14, c15);
+    if (n >= 1 && n <= 9)
+    {
+        printf("Введите год римскими цифрами: ");
 
-    printf("Обычное значение года: %d\n", year);
+        if (n >= 1) scanf(" %c", &r1);
+        if (n >= 2) scanf(" %c", &r2);
+        if (n >= 3) scanf(" %c", &r3);
+        if (n >= 4) scanf(" %c", &r4);
+        if (n >= 5) scanf(" %c", &r5);
+        if (n >= 6) scanf(" %c", &r6);
+        if (n >= 7) scanf(" %c", &r7);
+        if (n >= 8) scanf(" %c", &r8);
+        if (n >= 9) scanf(" %c", &r9);
+
+        year = RomanToYear(r1, r2, r3, r4, r5, r6, r7, r8, r9);
+
+        printf("Обычное значение года: %d\n", year);
+    }
+    else
+    {
+        printf("Ошибка: количество символов должно быть от 1 до 9\n");
+    }
 
     return 0;
 }
-
 
 int Task1(char c)
 {
@@ -171,8 +169,7 @@ int Task1(char c)
     }
 }
 
-
-float Task2(float x, char c, float y)
+float Task2(float x, float y, char c)
 {
     switch (c)
     {
@@ -191,8 +188,7 @@ float Task2(float x, char c, float y)
     }
 }
 
-
-int Value(char c)
+int RomanValue(char c)
 {
     switch (c)
     {
@@ -207,26 +203,30 @@ int Value(char c)
     }
 }
 
-
-char Next(char prev)
+int RomanToYear(char c1, char c2, char c3, char c4, char c5,
+    char c6, char c7, char c8, char c9)
 {
-    char c;
+    int v1 = RomanValue(c1);
+    int v2 = RomanValue(c2);
+    int v3 = RomanValue(c3);
+    int v4 = RomanValue(c4);
+    int v5 = RomanValue(c5);
+    int v6 = RomanValue(c6);
+    int v7 = RomanValue(c7);
+    int v8 = RomanValue(c8);
+    int v9 = RomanValue(c9);
 
-    if (prev == '\n')
-        return '\n';
+    int result = 0;
 
-    scanf("%c", &c);
-    return c;
-}
+    result += v1 < v2 ? -v1 : v1;
+    result += v2 < v3 ? -v2 : v2;
+    result += v3 < v4 ? -v3 : v3;
+    result += v4 < v5 ? -v4 : v4;
+    result += v5 < v6 ? -v5 : v5;
+    result += v6 < v7 ? -v6 : v6;
+    result += v7 < v8 ? -v7 : v7;
+    result += v8 < v9 ? -v8 : v8;
+    result += v9;
 
-
-int AddSymbol(int sum, char prev, char cur)
-{
-    int p = Value(prev);
-    int v = Value(cur);
-
-    if (p < v)
-        return sum + v - 2 * p;
-
-    return sum + v;
+    return result;
 }
